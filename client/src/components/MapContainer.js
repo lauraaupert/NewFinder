@@ -36,7 +36,7 @@ const MapContainer = (props) => {
     lat: 41.3851, lng: 2.1734
   }
 
-  const marker = props.markers;
+  // const marker = props.markers;
   
   return (
     <LoadScript
@@ -52,8 +52,8 @@ const MapContainer = (props) => {
         zoom={2.3}
         center={defaultCenter}>
           
-        {marker.map(item => {
-                  // {marker.map(item => {
+        {/* {marker.map(item => { */}
+                  {/* // {marker.map(item => {
 
             return (
 
@@ -64,7 +64,7 @@ const MapContainer = (props) => {
                 />
             )
         })
-        }
+        } */}
          
         {selected.location && 
             (

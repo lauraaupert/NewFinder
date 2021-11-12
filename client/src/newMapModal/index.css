@@ -1,0 +1,20 @@
+.plus {
+    border-radius: 50% !important;
+    height: 60px;
+    width: 60px;
+    font-size: 70px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.mapPic {
+    height: auto;
+    width: 100%;
+}
+.saveButton {
+    position: absolute;
+    bottom: 20px;
+}
+/* .active {
+    background-color: lightgray;
+} */

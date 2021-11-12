@@ -2,20 +2,21 @@ import axios from 'axios';
 
 export default {
 
-saveFriend: function (name, email, show, latitude, longitude) {
-    console.log(name, email, show, latitude)
-    return axios.post('/api/friends', {
-        name: name, 
+saveUser: function (email, password) {
+    console.log(email, password)
+    return axios.post('/api/users', {
+        // name: name, 
         email: email, 
-        show: show, 
-        location: {
-            lat: latitude,
-            lng: longitude
-        }
+        password: password, 
+        // location: {
+        //     lat: latitude,
+        //     lng: longitude
+        // }
     });
   },
-  getFriends: function () {
-    return axios.get('/api/friends');
+  getUser: function (email) {
+    console.log(email)
+    return axios.get('/api/users/aupert.laura@gmail.com', {email: email});
   },
   setLocation: function (name, latitude, longitude) {
     return axios.put("/api/friends", 
