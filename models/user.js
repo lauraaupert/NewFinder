@@ -35,6 +35,23 @@ const UserSchema = new Schema({
   maps: {
     type: Array
   },
+  markers: 
+    {
+    type: Array
+  //   location: 
+  //   {
+  //     lat: {
+  //       type: Number,
+  //       // required: [true, "Please enter your address. It will not be displayed."]
+  //     },
+  //     lng: {
+  //     type: Number,
+  //     // required: [true, "Please enter your address. It will not be displayed."]
+  //     },
+  // }
+
+  },
+
   hasMaps: 
     {
       type: Boolean

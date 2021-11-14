@@ -37,7 +37,8 @@ function App() {
           maps: user.data.maps,
           hasMaps: user.data.hasMaps,
           name: user.data.name,
-          password: user.data.password
+          password: user.data.password,
+          markers: user.data.markers
 
           // _id: res.data._id,
           // email: res.data.email,

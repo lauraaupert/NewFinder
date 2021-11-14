@@ -4,6 +4,7 @@ import Tab from 'react-bootstrap/Tab'
 import MapContainer from './MapContainer';
 import { MarkerContext } from "../utils/MarkerContext"
 import authenticatedUserContext from '../utils/authenticatedUserContext'
+import NewMapModal from './newMapModal/NewMapModal';
 
 
 
@@ -47,14 +48,20 @@ function TabsMap() {
 
 
     return(
+      
     <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-3">
+      <Tab eventKey="all" title="All">
+               <NewMapModal />
+               <p>Add New Map</p>
+
+    </Tab>
       {context.maps.map(function(item, index) {
-        console.log(item.mapStyle)
+        console.log(item.mapStyle, index)
         return(
-          <Tab eventKey={item.mapStyle} title={item.mapStyle}>
+          <Tab key={index} eventKey={item.mapStyle} title={item.mapName}>
           <MapContainer
           styles={item.mapStyle}
-        //   markers={marker.list}
+          index={index}
            />
     </Tab>
         )

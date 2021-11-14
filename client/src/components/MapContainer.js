@@ -4,6 +4,8 @@ import Search from "./Search"
 import { MarkerContext } from "../utils/MarkerContext"
 import AddFile from "./AddFile"
 import authenticatedUserContext from '../utils/authenticatedUserContext'
+import { motion } from "framer-motion"
+import AddModal from './AddModal';
 
 
 const googleKey = process.env.REACT_APP_APIKEY
@@ -16,12 +18,17 @@ function style(props) {
 
 
 const MapContainer = (props) => {
+  console.log(props.index)
   const styles = require(`${props.styles}`)
   // const marker = props.markers
   const context = useContext(authenticatedUserContext)
   // const marker = context.maps[0].mapName
-  // console.log(marker)
-
+  console.log(context)
+  let mapMarkers = []
+   mapMarkers = context.markers.filter(marker => {
+    return (marker.index === props.index)
+  })
+console.log(mapMarkers)
 
   const [ selected, setSelected ] = useState({});
 
@@ -35,7 +42,8 @@ const MapContainer = (props) => {
   const mapStyles = {        
     height: "70vh",
     width: "100%",
-    opacity: ".9"
+    opacity: ".9",
+    // zIndex: "-1"
   };
   
   const defaultCenter = {
@@ -49,7 +57,24 @@ const MapContainer = (props) => {
        googleMapsApiKey = {googleKey}>
 
       <Search />
+     
+      <motion.div
+style={{backgroundColor: "red", alignItems: "center", justifyContent: "center",
+width: "60px", zIndex: "1", height: "60px",display: "flex", borderRadius: "50%"}}
+initial={{opacity: 0}}
+animate={{opacity: 1}}
+transition={{duration: 2}}
+drag
+dragSnapToCenter={true}
 
+dragConstraints={{
+    top: 0,
+    left: 0, 
+    right: 500,
+    bottom: 500,
+}}> 
+<AddModal index={props.index}/>
+ </motion.div>
       <GoogleMap
         mapContainerStyle={mapStyles}
 
@@ -57,9 +82,11 @@ const MapContainer = (props) => {
 
         zoom={2.3}
         center={defaultCenter}>
+
+
           
-        {/* {marker.map(item => { */}
-                  {/* // {marker.map(item => {
+        {mapMarkers.map(item => { 
+                  // {/* // {marker.map(item => {
 
             return (
 
@@ -70,7 +97,7 @@ const MapContainer = (props) => {
                 />
             )
         })
-        } */}
+        }
          
         {selected.location && 
             (

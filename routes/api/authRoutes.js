@@ -44,16 +44,27 @@ const router = require("express").Router();
   //   .then(console.log(req.data))
   // }
   router.route("/user_data").put(function(req, res) {
-    console.log("yoyou", req.body)
+    console.log("yoyou", req.body.maps, req.body.markers)
+    if (req.body.maps === undefined) {
+      // let map = maps[req.body.markers.index]
+      User.updateOne({_id: req.body._id}, 
+        // { _id: res.data._id },
+        // { $set: {map1: req.body.maps }},
+        { $addToSet: {markers: req.body.markers }}, 
+        function(err, result) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(result);
+          }
+        })
+    } else {
+    // if (req.body.maps) 
     User.updateOne({_id: req.body._id}, 
       // { _id: res.data._id },
       // { $set: {map1: req.body.maps }},
       { $addToSet: {maps: req.body.maps }, 
        $set: {hasMaps: true }},
-      
-
-        // { maps: req.body } },
-        // { maps: ["New York", "Texas", "Detroit"] } },
       function(err, result) {
         if (err) {
           res.send(err);
@@ -61,7 +72,8 @@ const router = require("express").Router();
           res.send(result);
         }
       }
-    );
+    )
+    };
   });
 
   // Route for getting some data about our user to be used client side
@@ -82,7 +94,8 @@ const router = require("express").Router();
         email: req.user.email,
         success: true,
         maps: req.user.maps,
-        password: req.user.password
+        password: req.user.password,
+        markers: req.user.markers
       });
     }
   });

@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 
 function AddYourself(props) {
-
+  console.log(props)
   function onClick() {
     props.onHide()
     window.location.reload();
@@ -21,13 +21,13 @@ function AddYourself(props) {
 
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add Yourself!
+          Add a Place!
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <h4>Enter Your Info:</h4>
-        <AddForm />
+        <h4>Enter Info:</h4>
+        <AddForm index={props.index} />
       </Modal.Body>
 
       <Modal.Footer>
@@ -38,16 +38,17 @@ function AddYourself(props) {
     );
   };
   
-function AddModal() {
+function AddModal(props) {
   const [modalShow, setModalShow] = React.useState(false);
   
   return (
     <>
-      <Button variant="primary" size="lg" block onClick={() => setModalShow(true)}>
-        Add Yourself!
+      <Button variant="danger" style={{borderRadius: "50%"}} size="lg" block onClick={() => setModalShow(true)}>
+        +
       </Button>
   
       <AddYourself
+        index={props.index}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />

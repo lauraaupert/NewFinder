@@ -29,6 +29,12 @@ export default {
 
         )
     },
+    saveDestination: (id, marker) => {
+        return axios.put('api/user_data', {
+            _id: id,
+            markers: marker
+        })
+    },
     isAuthenticated: () => {
         return axios.get('/api/user_data')
     },

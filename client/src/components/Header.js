@@ -11,17 +11,17 @@ console.log(name)
     return(
       <Jumbotron fluid>
 
-        <Container style={{height: "200px", paddingTop: "150px", paddingBottom: "200px"}}>
+        <Container style={{height: "10vh", paddingTop: "50px", paddingBottom: "80px"}}>
 
-        <NewMapModal />
-        <h1>Hi {name}</h1>
+        {/* <NewMapModal /> */}
+        <h1>Hi, {name}</h1>
         {/* <SignIn /> */}
           <h1 style={{color: "white"}}>Find Each Other</h1>
           <p style={{color: "white"}}>
             Your Circus Family is just a click away    
           </p>
 
-          <AddModal />
+          {/* <AddModal /> */}
 
         </Container>
 

@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import api from '../utils/api'
+import authenticatedUserContext from '../utils/authenticatedUserContext'
+import passport from '../utils/passport'
 
-function AddForm({ handleChange }) {
+function AddForm(props) {
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [show, setShow] = useState("");
+    const [comment, setComment] = useState("");
     const [address, setAddress] = useState("");
     const [currentLatitude, setCurrentLatitude] = useState("");
     const [currentLongitude, setCurrentLongitude] = useState("");
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
+
+    const context = useContext(authenticatedUserContext)
+    const id = context._id
+    const index = props.index
+    console.log(index)
     
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -32,21 +38,28 @@ function AddForm({ handleChange }) {
     async function AddYourself(e) {
         e.preventDefault();
 
-        if (name === "" || email === "" || show === "" || address === "") {
+        if (name === "" || comment === "" || address === "") {
             alert("Please fill out your name, email, show, and location");
         } else {
             if (latitude, longitude) {
-              api.saveFriend(name, email, show, latitude, longitude);
+              let location = {lat: Number(latitude), lng: Number(longitude)}
+              let marker = {index, name, comment, location}
+              passport.saveDestination(id, marker);
             } else {
               const location = address;
 
               api.geocode(location)
               .then(res => {
+
                 const apiLatitude = res.data.data[0].latitude
                 const apiLongitude = res.data.data[0].longitude
-                console.log("Friend Data: ", name, email, show, apiLatitude, apiLongitude);
-        
-                api.saveFriend(name, email, show, apiLatitude, apiLongitude)
+                let location = {lat: Number(apiLatitude), lng: Number(apiLongitude)}
+
+                console.log("Destination Data: ", index, name, comment, apiLatitude, apiLongitude);
+                let marker = {index, name, comment, location}
+                
+                passport.saveDestination(id, marker);
+  
               })
               .catch(err => console.log(err));
             }
@@ -58,27 +71,20 @@ function AddForm({ handleChange }) {
       <Form>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="email" placeholder="Enter your name" onChange={(e) => setName(e.target.value)} value={name}/>
+          <Form.Control type="name" placeholder="Enter Destination Name" onChange={(e) => setName(e.target.value)} value={name}/>
         </Form.Group>
 
         <br/>
 
-        <Form.Group controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email}/>
-        </Form.Group>
-
-        <br/>
-
-        <Form.Group controlId="show">
-          <Form.Label>Which show were you on?</Form.Label>
-          <Form.Control type="email" placeholder="Show" onChange={(e) => setShow(e.target.value)} value={show}/>
+        <Form.Group controlId="comment">
+          <Form.Label>Comment</Form.Label>
+          <Form.Control type="email" placeholder="Comment" onChange={(e) => setComment(e.target.value)} value={comment}/>
         </Form.Group>
 
         <br/>
 
         <Form.Group controlId="address">
-          <Form.Label>Where are you located?</Form.Label>
+          <Form.Label>Where is it located?</Form.Label>
           <Form.Control type="address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} value={address}/>
           <Button variant="success" onClick={onAddress}>Use Current Location</Button> 
         </Form.Group>

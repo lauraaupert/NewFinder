@@ -9,6 +9,7 @@ import passport from "../../utils/passport"
 // import { UserContext } from '../../utils/authenticatedUserContext'
 import authenticatedUserContext from '../../utils/authenticatedUserContext'
 import GetStarted from '../GetStarted/GetStarted';
+import { Col } from 'react-bootstrap';
 
 function MapsPage() {
     // const { id, email, maps } = useContext(UserContext);
@@ -66,7 +67,8 @@ function MapsPage() {
 > 
 
 {authenticatedUser.hasMaps ?
-<div>
+<div style={{width: "90vw"}}>
+  <Col >
     <Header name={authenticatedUser.name} />
     <TabsMap mapsToDisplay={mapsToDisplay}/>
     {/* {mapsToDisplay.map(function(item, index) {
@@ -74,6 +76,7 @@ function MapsPage() {
       <h1>{item.mapStyle}</h1>
       )
     })} */}
+    </Col>
   </div>
 :
   <GetStarted name={authenticatedUser.name} />

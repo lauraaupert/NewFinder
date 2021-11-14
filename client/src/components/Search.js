@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import api from "../utils/api"
 import { MarkerContext } from "../utils/MarkerContext"
+import authenticatedUserContext from '../utils/authenticatedUserContext'
 
 function Search() {
   const [allData,setAllData] = useState([]);
   const [filteredData,setFilteredData] = useState(allData);
 
-  const context = useContext(MarkerContext)
+  const context = useContext(authenticatedUserContext)
+  // setAllData(context.markers)
 
   const handleSearch = (event) =>{
     let value = event.target.value;
@@ -18,32 +20,35 @@ function Search() {
       return data.name.search(value) !== -1;
     });
 
-    if (result.length < 1) {
-      let showResult =[];
-      showResult = allData.filter((data) => {
-        return data.show.search(value) !== -1;
-      });
-      result = showResult;
-      console.log(result)
-    };
+    // if (result.length < 1) {
+    //   let showResult =[];
+    //   showResult = allData.filter((data) => {
+    //     return data.show.search(value) !== -1;
+    //   });
+    //   result = showResult;
+    //   console.log(result)
+    // };
 
     setFilteredData(result);
     context.setList(result);
   };
 
   useEffect(() => {
-    api.getUser()
-    .then(res => {
-      console.log(res.params)
-      setAllData(res.data);
-      setFilteredData(res.data);
-      context.setList(res.data)
-    })
-    .catch(error => {
-      console.log('Error getting data: ' + error);
-      })
-  }, 
-  []);
+    setAllData(context.markers)
+  }, [])
+  // useEffect(() => {
+  //   api.getUser()
+  //   .then(res => {
+  //     console.log(res.params)
+  //     setAllData(res.data);
+  //     setFilteredData(res.data);
+  //     context.setList(res.data)
+  //   })
+  //   .catch(error => {
+  //     console.log('Error getting data: ' + error);
+  //     })
+  // }, 
+  // []);
 
   function handleClick(e) { 
     e.preventDefault();
