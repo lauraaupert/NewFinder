@@ -3,9 +3,9 @@
     height: 60px;
     width: 60px;
     font-size: 70px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    /* position: absolute; */
+    /* top: 10px;
+    left: 10px; */
 }
 .mapPic {
     height: auto;

@@ -33,6 +33,7 @@ passport.use(new LocalStrategy({
         });
       }
       // If none of the above, return the user
+      console.log(dbUser, "this is what I get")
       return done(null, dbUser);
     });
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,31 +8,46 @@ import {
 import passport from "./utils/passport";
 import authenticatedUserContext from "./utils/authenticatedUserContext";
 import "./App.css";
-import MapContainer from "./components/MapContainer";
-import { MarkerProvider } from "./utils/MarkerContext"
-import Header from "./components/Header";
-import background from "./BIGTOP.jpeg"
-import TabsMap from "./components/TabsMap";
 import MapsPage from "./components/pages/Maps";
 import LoginPage from "./components/pages/Login";
 
 
 function App() {
   const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
-  const [authenticatedUser, setAuthenticatedUser] = useState({
-    _id: "",
-    email: "",
-    maps: [],
-  });
+  const [authenticatedUser, setAuthenticatedUser] = useState({})
+
+
+  // useContext(authenticatedUserContext) = authenticatedUser;
+  console.log(authenticatedUser)
+  //NEED TO SET CONTEXT TO LOGGED USER
 
   useEffect(() => {
     passport.isAuthenticated().then((res) => {
-      console.log("The response from checking authenticating is:", res.data);
+      console.log(res)
+      console.log("The response from checking authenticating is:", res.data.name);
       if (res.data.success) {
         console.log("SUCCESS!");
         setIsAuthenticatedUser(true);
         console.log(res.data)
-        addUserData(res.data._id, res.data.email, res.data.maps);
+        passport.getUser().then((user) => {
+          console.log(user.data)
+        let person = ({
+          _id: user.data._id,
+          email: user.data.email,
+          maps: user.data.maps,
+          hasMaps: user.data.hasMaps,
+          name: user.data.name,
+          password: user.data.password
+
+          // _id: res.data._id,
+          // email: res.data.email,
+          // maps: res.data.maps,
+          // hasMaps: res.data.hasMaps,
+          // name: res.data.name
+        })
+        console.log(person)
+        setAuthenticatedUser(person)
+      })
       } else {
         console.log("FAILURE");
         setIsAuthenticatedUser(false);
@@ -44,12 +59,15 @@ function App() {
   }, [isAuthenticatedUser]);
 
   const addUserData = (id, email, maps) => {
+    console.log(id, email, maps)
     setAuthenticatedUser({
       _id: id,
       email: email,
       maps: maps,
     });
+    console.log(authenticatedUser)
   };
+  console.log(authenticatedUser)
   return (
     <Router>
       <authenticatedUserContext.Provider value={authenticatedUser}>
@@ -61,7 +79,7 @@ function App() {
               </Route>
 
               <Route exact path={["/MapsPage"]}>
-                <MapsPage />
+                <MapsPage setIsAuthenticatedUser={setIsAuthenticatedUser} />
               </Route>
             </>
           ) : (

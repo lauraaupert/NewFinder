@@ -11,9 +11,9 @@ const router = require("express").Router();
   router.post("/login", 
    passport.authenticate("local"), 
   function(req, res) {
-    console.log("Hello", req.body)
+    console.log("Hello", req.body, req.user.hasMaps)
     res.json(req.user);
-    console.log(res.json(req.user))
+    // console.log(res.json(req.user))
   });
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
@@ -23,7 +23,7 @@ const router = require("express").Router();
     console.log(req.body)
     User.create(req.body)
       .then(user => {
-          console.log(res.json(user))
+          console.log(res.json(user.hasMaps))
         res.status(200).json(user).redirect("/MapsPage")
       })
       .catch(function(err) {
@@ -38,13 +38,35 @@ const router = require("express").Router();
     res.redirect("/");
   });
 
-  router.post("/user_data"), function(req,res) {
-    User.findOneAndUpdate(res.data.email, req.body)
-    .then(console.log(req.data))
-  }
+  // router.put("/user_data"), function(req,res) {
+  //   console.log(req.body, "yougotit")
+  //   User.findOneAndUpdate(res.data._id, req.body)
+  //   .then(console.log(req.data))
+  // }
+  router.route("/user_data").put(function(req, res) {
+    console.log("yoyou", req.body)
+    User.updateOne({_id: req.body._id}, 
+      // { _id: res.data._id },
+      // { $set: {map1: req.body.maps }},
+      { $addToSet: {maps: req.body.maps }, 
+       $set: {hasMaps: true }},
+      
+
+        // { maps: req.body } },
+        // { maps: ["New York", "Texas", "Detroit"] } },
+      function(err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      }
+    );
+  });
 
   // Route for getting some data about our user to be used client side
   router.get("/user_data", function(req, res) {
+    console.log(req.user, "userData")
     if (!req.user) {
       // The user is not logged in, send back an empty object
       res.json({
@@ -55,10 +77,12 @@ const router = require("express").Router();
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
         _id: req.user._id,
-        // username: req.user.username,
+        name: req.user.name,
+        hasMaps: req.user.hasMaps,
         email: req.user.email,
         success: true,
-        maps: req.user.maps
+        maps: req.user.maps,
+        password: req.user.password
       });
     }
   });

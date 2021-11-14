@@ -1,28 +1,33 @@
 import axios from 'axios';
 
 export default {
-    signUp: (email, password) => {
-        console.log(email, password)
+    signUp: (email, password, name) => {
+        console.log(email, password, name)
         return axios.post('/api/signup', {
             email: email,
             password: password,
+            name: name,
+            hasMaps: false
         })
     },
     LogIn: (email, password) => {
         console.log(email, password)
         return axios.post('/api/login', {
             email: email,
-            password: password
+            password: password,
         })
     },
     getUser: () => {
-        return axios.get('/api/user')
+        return axios.get('/api/user_data')
     },
-    saveMap: (email, map) => {
+    
+    saveMap: (id, newMap) => {
+        console.log("I'm putting!")
         return axios.put('/api/user_data', {
-            email: email,
-            maps: map
-        })
+        _id: id,
+        maps: newMap}
+
+        )
     },
     isAuthenticated: () => {
         return axios.get('/api/user_data')

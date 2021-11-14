@@ -1,0 +1,6 @@
+.getStarted {
+    background-image: none;
+    width: 30%;
+    display: flex;
+    flex-wrap: wrap;
+}

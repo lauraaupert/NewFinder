@@ -3,6 +3,8 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import MapContainer from './MapContainer';
 import { MarkerContext } from "../utils/MarkerContext"
+import authenticatedUserContext from '../utils/authenticatedUserContext'
+
 
 
 function TabsMap() {
@@ -24,11 +26,40 @@ function TabsMap() {
     //         allegria.push(friend)
     //     }
     // })
+    const context = useContext(authenticatedUserContext)
+    console.log(context)
+    // const [authenticatedUser, setAuthenticatedUser] = useState({
+    //     id: context._id,
+    //     email: context.email,
+    //     maps: context.maps
+    // })
+    // setAuthenticatedUser(context)
+    const authenticatedUser = {
+        id: context._id,
+        email: context.email,
+        maps: context.maps,
+        name: context.name,
+
+    }
+
+    console.log(context.maps)
+
 
 
     return(
     <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-3">
-    <Tab eventKey="all" title="All">
+      {context.maps.map(function(item, index) {
+        console.log(item.mapStyle)
+        return(
+          <Tab eventKey={item.mapStyle} title={item.mapStyle}>
+          <MapContainer
+          styles={item.mapStyle}
+        //   markers={marker.list}
+           />
+    </Tab>
+        )
+      })}
+    {/* <Tab eventKey="all" title="All">
       <MapContainer
       styles={'./maps/GoogleMapStyles.json'}
     //   markers={marker.list}
@@ -45,7 +76,7 @@ function TabsMap() {
             styles={'./maps/whiteMap.json'}
             // markers={totem}
         />
-    </Tab>
+    </Tab> */}
   </Tabs>
   )
 }

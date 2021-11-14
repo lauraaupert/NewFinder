@@ -3,6 +3,8 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 import Search from "./Search"
 import { MarkerContext } from "../utils/MarkerContext"
 import AddFile from "./AddFile"
+import authenticatedUserContext from '../utils/authenticatedUserContext'
+
 
 const googleKey = process.env.REACT_APP_APIKEY
 function style(props) {
@@ -16,6 +18,10 @@ function style(props) {
 const MapContainer = (props) => {
   const styles = require(`${props.styles}`)
   // const marker = props.markers
+  const context = useContext(authenticatedUserContext)
+  // const marker = context.maps[0].mapName
+  // console.log(marker)
+
 
   const [ selected, setSelected ] = useState({});
 

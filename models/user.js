@@ -21,46 +21,75 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  maps: [
-    {
+  maps: {
+    
       mapStyle: {
-        type: String,
+        type:String
       },
       mapName: {
-        type: String,
-      },
-      mapDescription: {
-        type: String,
-      },
-      markers: [
-        {
-          lat: {
-            type: Number,
-            // required: [true, "Please enter your address. It will not be displayed."]
-          },
-          lng: {
-          type: Number,
-          // required: [true, "Please enter your address. It will not be displayed."]
-          }, 
-          name: {
-            type: String,
-          },
-          description: {
-            type: String,
-          },
-          notes: [
-            {
-              comment: {
-                type: String,
-              }
-            }
-          ]
-        }
-      ]
+        type: String
+      }
+      
+    },
+  // }
+  maps: {
+    type: Array
+  },
+  hasMaps: 
+    {
+      type: Boolean
     }
-  ]
+  
+  //   {
+  //   mapStyle: {
+  //       type: String,
+  //       // required: "Exercise type required",
+  //   },
+  //   mapName: {
+  //        type: String,
+  //       //  required: "Exercise name required",
+  //   }
+  // }
+  // ]
+    // {
+    //   mapStyle: {
+    //     type: String,
+    //   },
+    //   mapName: {
+    //     type: String,
+    //   },
+    //   mapDescription: {
+    //     type: String,
+    //   },
+      // markers: [
+      //   {
+      //     lat: {
+      //       type: Number,
+      //       // required: [true, "Please enter your address. It will not be displayed."]
+      //     },
+      //     lng: {
+      //     type: Number,
+      //     // required: [true, "Please enter your address. It will not be displayed."]
+      //     }, 
+      //     name: {
+      //       type: String,
+      //     },
+      //     description: {
+      //       type: String,
+      //     },
+      //     notes: [
+      //       {
+      //         comment: {
+      //           type: String,
+      //         }
+      //       }
+      //     ]
+      //   }
+      // ]
+  //  }
+  // ]
 })
-
+// 
 // UserSchema.methods.validPassword = function (password) {
 //   return bcrypt.compareSync(password, this.password);
 // }
