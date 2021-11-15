@@ -8,7 +8,7 @@ function AddYourself(props) {
   console.log(props)
   function onClick() {
     props.onHide()
-    window.location.reload();
+    // window.location.reload();
   }
 
   return (
@@ -27,7 +27,10 @@ function AddYourself(props) {
 
       <Modal.Body>
         <h4>Enter Info:</h4>
-        <AddForm index={props.index} />
+        <AddForm index={props.index} 
+        markers={props.markers} 
+        // setAllMarkers={props.setAllMarkers} allMarkers={props.allMarkers}
+        />
       </Modal.Body>
 
       <Modal.Footer>
@@ -46,9 +49,13 @@ function AddModal(props) {
       <Button variant="danger" style={{borderRadius: "50%"}} size="lg" block onClick={() => setModalShow(true)}>
         +
       </Button>
+      <p>Add a Place</p>
   
       <AddYourself
         index={props.index}
+        markers={props.markers}
+        // setAllMarkers={props.setAllMarkers}
+        // allMarkers={props.allMarkers}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />

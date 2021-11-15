@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button'
 import api from '../utils/api'
 import authenticatedUserContext from '../utils/authenticatedUserContext'
 import passport from '../utils/passport'
+import { MarkerContext } from '../utils/MarkerContext';
+
 
 function AddForm(props) {
     const [name, setName] = useState("");
@@ -13,11 +15,11 @@ function AddForm(props) {
     const [currentLongitude, setCurrentLongitude] = useState("");
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
-
     const context = useContext(authenticatedUserContext)
+    const markerContext = useContext(MarkerContext)
+    const markers = props.markers
     const id = context._id
     const index = props.index
-    console.log(index)
     
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -45,6 +47,9 @@ function AddForm(props) {
               let location = {lat: Number(latitude), lng: Number(longitude)}
               let marker = {index, name, comment, location}
               passport.saveDestination(id, marker);
+              markers.push(marker)
+              markerContext.setList(markers)
+
             } else {
               const location = address;
 
@@ -59,7 +64,8 @@ function AddForm(props) {
                 let marker = {index, name, comment, location}
 
                 passport.saveDestination(id, marker);
-  
+                markers.push(marker)
+                markerContext.setList(markers)
               })
               .catch(err => console.log(err));
             }

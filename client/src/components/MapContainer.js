@@ -18,18 +18,14 @@ const MapContainer = (props) => {
   // const marker = props.markers
   const context = useContext(authenticatedUserContext)
   const mapContext = useContext(MarkerContext)
-  console.log(mapContext)
-  // const marker = context.maps[0].mapName
-  console.log(context)
+
   let mapMarkers = []
-  //  mapMarkers = context.markers.filter(marker => {
-  //   return (marker.index === props.index)
-  // })
-     mapMarkers = mapContext.list.filter(marker => {
+  const [ allMarkers, setAllMarkers ] = useState(context.markers)
+
+  mapMarkers = mapContext.list.filter(marker => {
     return (marker.index === props.index)
   })
-
-console.log(mapMarkers)
+  const markers = context.markers
 
   const [ selected, setSelected ] = useState({});
 
@@ -57,9 +53,9 @@ console.log(mapMarkers)
     <LoadScript
        googleMapsApiKey = {googleKey}>
 
-      <Search />
+      <Search index={props.index} markers={markers} setAllMarkers={setAllMarkers}/>
      
-      <motion.div
+      {/* <motion.div
 style={{backgroundColor: "red", alignItems: "center", justifyContent: "center",
 width: "60px", zIndex: "1", height: "60px",display: "flex", borderRadius: "50%"}}
 initial={{opacity: 0}}
@@ -73,9 +69,9 @@ dragConstraints={{
     left: 0, 
     right: 500,
     bottom: 500,
-}}> 
-<AddModal index={props.index}/>
- </motion.div>
+}}>  */}
+{/* <AddModal index={props.index} markers={markers} setAllMarkers={setAllMarkers}/> */}
+ {/* </motion.div> */}
       <GoogleMap
         mapContainerStyle={mapStyles}
 
