@@ -41,7 +41,7 @@ function AddForm(props) {
         if (name === "" || comment === "" || address === "") {
             alert("Please fill out your name, email, show, and location");
         } else {
-            if (latitude, longitude) {
+            if (latitude && longitude) {
               let location = {lat: Number(latitude), lng: Number(longitude)}
               let marker = {index, name, comment, location}
               passport.saveDestination(id, marker);
@@ -57,7 +57,7 @@ function AddForm(props) {
 
                 console.log("Destination Data: ", index, name, comment, apiLatitude, apiLongitude);
                 let marker = {index, name, comment, location}
-                
+
                 passport.saveDestination(id, marker);
   
               })

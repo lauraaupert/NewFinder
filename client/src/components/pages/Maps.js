@@ -1,9 +1,6 @@
 
-import React, { useState, useContext } from 'react';
-import MapContainer from "../MapContainer";
-import { MarkerProvider } from "../../utils/MarkerContext"
+import React, { useContext } from 'react';
 import Header from "../Header";
-import background from '../../BIGTOP.jpeg'
 import TabsMap from "../TabsMap";
 import passport from "../../utils/passport"
 // import { UserContext } from '../../utils/authenticatedUserContext'

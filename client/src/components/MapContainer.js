@@ -1,19 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import Search from "./Search"
-import { MarkerContext } from "../utils/MarkerContext"
 import AddFile from "./AddFile"
 import authenticatedUserContext from '../utils/authenticatedUserContext'
 import { motion } from "framer-motion"
 import AddModal from './AddModal';
+import { MarkerContext } from '../utils/MarkerContext';
 
 
 const googleKey = process.env.REACT_APP_APIKEY
-function style(props) {
-  const styles = props.styles
-
-}
-// const styles = require('./GoogleMapStyles.json')
 
 
 
@@ -22,12 +17,18 @@ const MapContainer = (props) => {
   const styles = require(`${props.styles}`)
   // const marker = props.markers
   const context = useContext(authenticatedUserContext)
+  const mapContext = useContext(MarkerContext)
+  console.log(mapContext)
   // const marker = context.maps[0].mapName
   console.log(context)
   let mapMarkers = []
-   mapMarkers = context.markers.filter(marker => {
+  //  mapMarkers = context.markers.filter(marker => {
+  //   return (marker.index === props.index)
+  // })
+     mapMarkers = mapContext.list.filter(marker => {
     return (marker.index === props.index)
   })
+
 console.log(mapMarkers)
 
   const [ selected, setSelected ] = useState({});
@@ -86,6 +87,8 @@ dragConstraints={{
 
           
         {mapMarkers.map(item => { 
+          {/* {mapContext.map(item => {  */}
+
                   // {/* // {marker.map(item => {
 
             return (

@@ -1,14 +1,12 @@
-import React, { useState, useContext } from "react"
-import AddForm from '../Form'
+import React, { useState, useContext, useEffect } from "react"
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
 import authenticatedUserContext from '../../utils/authenticatedUserContext'
 import passport from '../../utils/passport'
 
 import './index.css'
 import NewMapTabs from "./NewMapTabs"
+import { MarkerContext } from "../../utils/MarkerContext"
 
 
 function AddNewMap(props) {
@@ -19,9 +17,36 @@ function AddNewMap(props) {
     name: context.name,
     maps: context.maps,
     hasMaps: context.hasMaps,
-    password: context.password
+    password: context.password,
+    markers: context.markers
 
   })
+  const mapContext = useContext(MarkerContext)
+  console.log(mapContext)
+
+  useEffect(() => {
+    passport.LogIn(context.email, context.password).then(res =>{
+      console.log(res.data)
+      if (res.data.hasMaps) {
+        mapContext.setList(res.data.markers)
+
+        setUser({
+          _id: res.data._id,
+          email: res.data.email,
+          name: res.data.name,
+          maps: res.data.maps,
+          hasMaps: res.data.hasMaps,
+          password: res.data.password,
+          markers: res.data.markers
+        })
+        console.log(mapContext)
+        
+      }
+      
+    })
+    // window.location.reload()
+  }, [])
+
   
   console.log(context)
 // context.maps.filter((data) => {
@@ -34,19 +59,20 @@ function AddNewMap(props) {
       mapName: "",
       mapDescription: ""
   })
-  const mapsies = [context.maps]
-  // console.log(mapsies[0][0])
 
   console.log(newMap)
   function onSubmit() {
     passport.saveMap(context._id, newMap)
+    .then(onClick())
     // .then(console.log(passport.getUser()))
     // context.map = newMap;
     console.log(context)
-    onClick()
+    
   }
 
-  function onClick() {
+  function onClick(e) {
+    e.preventDefault();
+    
     props.onHide()
     console.log(user)
     passport.LogIn(context.email, context.password).then(res =>{
@@ -58,7 +84,8 @@ function AddNewMap(props) {
           name: res.data.name,
           maps: res.data.maps,
           hasMaps: res.data.hasMaps,
-          password: res.data.password
+          password: res.data.password,
+          markers: res.data.markers
         })
         console.log(user)
         // let newContext = useContext(authenticatedUserContext))

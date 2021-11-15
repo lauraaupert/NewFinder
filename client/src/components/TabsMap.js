@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import MapContainer from './MapContainer';
-import { MarkerContext } from "../utils/MarkerContext"
 import authenticatedUserContext from '../utils/authenticatedUserContext'
 import NewMapModal from './newMapModal/NewMapModal';
 

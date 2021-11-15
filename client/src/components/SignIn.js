@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form'
 import passport from "../utils/passport"
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import api from '../utils/api'
 import { motion } from "framer-motion"
 
 function SignIn({setIsAuthenticatedUser}) {
@@ -18,7 +17,6 @@ function SignIn({setIsAuthenticatedUser}) {
 
     passport.LogIn(email, password).then(res => {
       if (res.status === 200) {
-          console.log(res.data.hasMaps)
       setIsAuthenticatedUser(true)
       }
     })
@@ -31,7 +29,6 @@ function SignIn({setIsAuthenticatedUser}) {
       if (response.status === 200) {
           passport.LogIn(email, password).then(res =>{
             if (res.status === 200) {
-                console.log(res.data.hasMaps)
             setIsAuthenticatedUser(true)
       
 
@@ -78,7 +75,7 @@ function SignIn({setIsAuthenticatedUser}) {
             <Card style={{width: "400px", justifyContent: "center"}}>
                 <Card.Body>
     <Form style={{position:'absolute', top: "10px"}}>
-        <Form.Group className="mb-3" controlId="formBasicEmail"
+        <Form.Group className="mb-3" controlId="loginEmail"
         >
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email"
@@ -90,7 +87,7 @@ function SignIn({setIsAuthenticatedUser}) {
           </Form.Text>
         </Form.Group>
       
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="loginPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" placeholder="Password" 
                   onChange={(e) => setPassword(e.target.value)} value={password}
@@ -127,7 +124,7 @@ function SignIn({setIsAuthenticatedUser}) {
                   onChange={(e) => setPassword(e.target.value)} value={password}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="name">
 
         <Form.Label>Your Name</Form.Label>
           <Form.Control type="name" placeholder="Your Name"

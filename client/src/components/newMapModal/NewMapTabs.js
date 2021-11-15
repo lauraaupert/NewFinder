@@ -1,14 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import Form from 'react-bootstrap/Form'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import TabContent from 'react-bootstrap/TabContent'
-import TabPane from 'react-bootstrap/TabPane'
 import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-// import MapContainer from './MapContainer';
-import { MarkerContext } from "../../utils/MarkerContext"
 import blue from '../maps/images/Blue.png'
 import yellowSeas from '../maps/images/YellowSeas.png'
 import white from '../maps/images/White.png'
@@ -22,10 +18,7 @@ function NewMapTabs({newMap, setNewMap}) {
     const mapChoices = ["White", "Blue", "Orange", "Yellow Seas"]
     const mapStyles = ['./maps/whiteMap.json', './maps/blueMap.json', './maps/secondMapStyle.json', './maps/yellowSeasMap.json']
 
-    const nextTab = (event) => {
-        event.preventDefault();
-        
-    }
+
 
     return(
     <Tabs defaultActiveKey="theme" id="uncontrolled-tab-example" className="mb-3">
@@ -55,7 +48,7 @@ function NewMapTabs({newMap, setNewMap}) {
                     return(
 
                 <Tab.Pane key={index} eventKey={mapChoices[index]}>
-                    <img className="mapPic" src={item} />
+                    <img className="mapPic" src={item} alt="Map Picture" />
                 </Tab.Pane>
                                   )
                                 })}
