@@ -6,6 +6,7 @@ export const MarkerContext = createContext();
 // This context provider is passed to any component requiring the context
 export const MarkerProvider = ({ children }) => {
   const [list, setList] = useState( [] );
+  const [mapList, setMapList] = useState( [] )
   console.log(list)
 //   const [location, setLocation] = useState("Mars");
 
@@ -14,6 +15,8 @@ export const MarkerProvider = ({ children }) => {
       value={{
         list,
         setList,
+        mapList, 
+        setMapList
       }}
     >
       {children}

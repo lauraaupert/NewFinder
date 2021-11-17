@@ -10,6 +10,7 @@ import { MarkerContext } from "../../utils/MarkerContext"
 
 
 function AddNewMap(props) {
+  console.log(props)
   let context = useContext(authenticatedUserContext)
   const [ user, setUser ] = useState({
     _id: context._id,
@@ -19,36 +20,39 @@ function AddNewMap(props) {
     hasMaps: context.hasMaps,
     password: context.password,
     markers: context.markers
-
   })
   const mapContext = useContext(MarkerContext)
   console.log(mapContext)
+  console.log(user)
 
-  useEffect(() => {
-    passport.LogIn(context.email, context.password).then(res =>{
-      console.log(res.data)
-      if (res.data.hasMaps) {
-        mapContext.setList(res.data.markers)
+  // useEffect(() => {
+  //   passport.LogIn(context.email, context.password).then(res =>{
+  //     console.log(res.data)
+  //     if (res.data.hasMaps) {
+  //       // mapContext.setList(res.data.markers)
+  //       // mapContext.setMapList(res.data.maps)
 
-        setUser({
-          _id: res.data._id,
-          email: res.data.email,
-          name: res.data.name,
-          maps: res.data.maps,
-          hasMaps: res.data.hasMaps,
-          password: res.data.password,
-          markers: res.data.markers
-        })
-        console.log(mapContext)
+  //       setUser({
+  //         _id: res.data._id,
+  //         email: res.data.email,
+  //         name: res.data.name,
+  //         maps: res.data.maps,
+  //         hasMaps: res.data.hasMaps,
+  //         password: res.data.password,
+  //         markers: res.data.markers
+  //       })
+  //       // console.log(mapContext)
         
-      }
+  //     }
       
-    })
-    // window.location.reload()
-  }, [])
+  //   })
+  //   // .then(setAuthenticatedUser(user))
+  //   // window.location.reload()
+  // }, [])
 
   
   console.log(context)
+  console.log(user)
 // context.maps.filter((data) => {
 //            console.log(data.mapStyle.includes("yellow"))
 //   })
@@ -61,47 +65,86 @@ function AddNewMap(props) {
   })
 
   console.log(newMap)
+
   function onSubmit() {
+    if (context.maps.length > 0) {
+      console.log("So I save!")
     passport.saveMap(context._id, newMap)
-    .then(onClick())
+    .then(passport.LogIn(context.email, context.password))
+    .then(passport.getUser().then(res => {
+    //   // passport.LogIn(context.email, context.password).then(res =>{
+        console.log(res.data)
+          setUser({
+            _id: res.data._id,
+            email: res.data.email,
+            name: res.data.name,
+            maps: res.data.maps,
+            hasMaps: res.data.hasMaps,
+            password: res.data.password,
+            markers: res.data.markers
+          })
+          let savedMap = [newMap];
+
+          mapContext.setMapList(mapContext.mapList.concat(savedMap))
+    }))
+
+
+    console.log(mapContext)
+    // onClick()
+    props.onHide()
+    console.log(user)
+      } else {
+      passport.saveMap(context._id, newMap)
+    .then(passport.LogIn(context.email, context.password))
+    .then(passport.getUser().then(res => {
+    //   // passport.LogIn(context.email, context.password).then(res =>{
+        console.log(res.data)
+        if (res.data.hasMaps) {
+          setUser({
+            _id: res.data._id,
+            email: res.data.email,
+            name: res.data.name,
+            maps: res.data.maps,
+            hasMaps: res.data.hasMaps,
+            password: res.data.password,
+            markers: res.data.markers
+          })
+          console.log(user.maps)
+          mapContext.setMapList(user.maps)
+          
+      
+          // let newContext = useContext(authenticatedUserContext))
+          // window.location.assign('../MapsPage')
+        // }
+        // context = res.data
+        // console.log(context)
+        // if (context.maps.length) {
+        //   console.log(context.maps)
+        
+      // })
+  
     // .then(console.log(passport.getUser()))
     // context.map = newMap;
-    console.log(context)
+  //   console.log(context)
     
+
+    }
+  }).then(onClick())
+    )
+
+
+   }
   }
 
   function onClick(e) {
-    e.preventDefault();
-    
+     
     props.onHide()
     console.log(user)
-    passport.LogIn(context.email, context.password).then(res =>{
-      console.log(res.data)
-      if (res.data.hasMaps) {
-        setUser({
-          _id: res.data._id,
-          email: res.data.email,
-          name: res.data.name,
-          maps: res.data.maps,
-          hasMaps: res.data.hasMaps,
-          password: res.data.password,
-          markers: res.data.markers
-        })
-        console.log(user)
-        // let newContext = useContext(authenticatedUserContext))
-        // window.location.assign('../MapsPage')
-      }
-      // context = res.data
-      // console.log(context)
-      // if (context.maps.length) {
-      //   console.log(context.maps)
-      
-    })
-    .then(window.location.reload())
+    window.location.reload()
   }
 
   return (
-    <authenticatedUserContext.Provider value={user}>
+    // <authenticatedUserContext.Provider value={user}>
 
     <Modal
       {...props}
@@ -128,14 +171,14 @@ function AddNewMap(props) {
       </Modal.Footer>
 
     </Modal>
-    </authenticatedUserContext.Provider>
+    // </authenticatedUserContext.Provider>
 
     );
   };
   
 function NewMapModal() {
   const [modalShow, setModalShow] = React.useState(false);
-  
+  // console.log(setAuthenticatedUser)
   return (
     <>
       <Button className="plus" variant="primary" block onClick={() => setModalShow(true)}>

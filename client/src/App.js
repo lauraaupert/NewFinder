@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -10,13 +10,15 @@ import authenticatedUserContext from "./utils/authenticatedUserContext";
 import "./App.css";
 import MapsPage from "./components/pages/Maps";
 import LoginPage from "./components/pages/Login";
-import { MarkerProvider } from "./utils/MarkerContext";
+import { MarkerContext, MarkerProvider } from "./utils/MarkerContext";
+
 
 
 function App() {
   const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState({})
-
+  // const mapContext = useContext(MarkerContext)
+  // console.log(mapContext)
 
   // useContext(authenticatedUserContext) = authenticatedUser;
   console.log(authenticatedUser)
@@ -55,6 +57,8 @@ function App() {
           })
           console.log(person)
           setAuthenticatedUser(person)
+          // mapContext.setList(person.markers)
+          // mapContext.setMapList(person.maps)
         })
         } else {
           console.log("FAILURE");
@@ -95,6 +99,7 @@ function App() {
         })
         console.log(person)
         setAuthenticatedUser(person)
+
       })
       } else {
         console.log("FAILURE");
@@ -108,12 +113,17 @@ function App() {
 
   window.onload = console.log("I reloaded")
 
+
   console.log(authenticatedUser)
   return (
     <Router>
 
       <authenticatedUserContext.Provider value={authenticatedUser}>
+
         <MarkerProvider>
+          {/* {authenticatedUser.maps && mapContext.setMapList(authenticatedUser.maps)}
+          {authenticatedUser.markers && mapContext.setList(authenticatedUser.markers)} */}
+
       <Switch>
           {isAuthenticatedUser ? (
             <>

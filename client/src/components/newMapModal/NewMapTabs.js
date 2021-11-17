@@ -9,14 +9,19 @@ import blue from '../maps/images/Blue.png'
 import yellowSeas from '../maps/images/YellowSeas.png'
 import white from '../maps/images/White.png'
 import orange from '../maps/images/Orange.png'
+import blackWhite from '../maps/images/blackWhite.png';
+import green from '../maps/images/green.png';
+import lilac from '../maps/images/lilac.png';
+import red from '../maps/images/redMap.png'
+
 import { Button } from 'react-bootstrap';
 
 
 function NewMapTabs({newMap, setNewMap}) {
 
-    const mapThumbnails = [white, blue, orange, yellowSeas]
-    const mapChoices = ["White", "Blue", "Orange", "Yellow Seas"]
-    const mapStyles = ['./maps/whiteMap.json', './maps/blueMap.json', './maps/secondMapStyle.json', './maps/yellowSeasMap.json']
+    const mapThumbnails = [white, blue, orange, yellowSeas, blackWhite, green, lilac, red]
+    const mapChoices = ["White", "Blue", "Orange", "Yellow Seas", "Black and White", "Green", "Lilac", "Red"]
+    const mapStyles = ['./maps/whiteMap.json', './maps/blueMap.json', './maps/secondMapStyle.json', './maps/yellowSeasMap.json', './maps/blackWhiteMap.json', './maps/greenMap.json', './maps/lilacMap.json', './maps/redMap.json']
 
 
 

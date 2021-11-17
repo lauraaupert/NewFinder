@@ -1,20 +1,39 @@
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Header from "../Header";
 import TabsMap from "../TabsMap";
-import passport from "../../utils/passport"
+// import passport from "../../utils/passport"
 // import { UserContext } from '../../utils/authenticatedUserContext'
 import authenticatedUserContext from '../../utils/authenticatedUserContext'
 import GetStarted from '../GetStarted/GetStarted';
 import { Col } from 'react-bootstrap';
+import { MarkerContext } from '../../utils/MarkerContext';
 
 function MapsPage() {
     // const { id, email, maps } = useContext(UserContext);
 // console.log(UserContext)
 
     const context = useContext(authenticatedUserContext)
-    console.log(context.maps)
+    // const mapContext = useContext(MarkerContext)
+
+
+    
+    console.log(context)
+    
     const mapsToDisplay = context.maps
+    console.log(mapsToDisplay)
+
+    // if (mapContext.mapList.length < mapsToDisplay.length) {
+      // mapContext.setMapList(mapsToDisplay)
+
+    // }
+    // console.log(mapContext)
+    // useEffect(() => {
+    //   mapContext.setList(context.markers);
+    
+  
+    // }, [])
+
     // const [authenticatedUser, setAuthenticatedUser] = useState({
     //     id: context._id,
     //     email: context.email,
@@ -32,7 +51,7 @@ function MapsPage() {
     console.log(context)
     // const maps = authenticatedUser.maps
     // mapsToDisplay.concat(context.maps)
-    console.log(mapsToDisplay)
+   
 
     // console.log(Array.isArray(authenticatedUser.maps[0]))
 

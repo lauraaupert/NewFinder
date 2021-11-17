@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import MapContainer from './MapContainer';
 import authenticatedUserContext from '../utils/authenticatedUserContext'
 import NewMapModal from './newMapModal/NewMapModal';
+import { Card } from 'react-bootstrap';
+import { MarkerContext } from '../utils/MarkerContext';
 
 
 
@@ -27,22 +29,48 @@ function TabsMap() {
     //     }
     // })
     const context = useContext(authenticatedUserContext)
+    const mapContext = useContext(MarkerContext)
+    // mapContext.setMapList(context.maps)
+    // console.log(mapContext.mapList)
     console.log(context)
+
+    useEffect(() => {
+      if (context.maps.length > mapContext.mapList.length ||
+        mapContext.mapList === undefined
+        ) {
+        mapContext.setMapList(context.maps)
+      }
+      if (context.markers.length > mapContext.list.length) {
+        mapContext.setList(context.markers)
+      }
+    console.log(context.maps.length)
+    console.log(mapContext.mapList.length)
+    }, [])
+    console.log(mapContext.mapList)
+
+
     // const [authenticatedUser, setAuthenticatedUser] = useState({
     //     id: context._id,
     //     email: context.email,
     //     maps: context.maps
     // })
     // setAuthenticatedUser(context)
-    const authenticatedUser = {
-        id: context._id,
-        email: context.email,
-        maps: context.maps,
-        name: context.name,
+    // const [authenticatedUser, setAuthenticatedUser] = useState({
+    //   _id: context._id,
+    //   email: context.email,
+    //   name: context.name,
+    //   maps: context.maps,
+    //   hasMaps: context.hasMaps,
+    //   password: context.password,
+    //   markers: context.markers
 
-    }
+    // })
 
-    console.log(context.maps)
+    // console.log(authenticatedUser)
+    // mapContext.setList(authenticatedUser.markers)
+    // mapContext.setMapList(authenticatedUser.maps)
+    console.log(mapContext)
+
 
 
 
@@ -50,11 +78,27 @@ function TabsMap() {
       
     <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-3">
       <Tab eventKey="all" title="All">
-               <NewMapModal />
-               <p>Add New Map</p>
+        <Card>
+          <Card.Title>
+            My Maps
+          </Card.Title>
+          {/* <Card.Body> */}
+            {/* <Card.Text>
+              {authenticatedUser.name} has {authenticatedUser.maps.length} maps
+            </Card.Text>
+            <Card.Text>
+              {authenticatedUser.name} has {mapContext.list.length} saved places
+            </Card.Text> */}
+          {/* </Card.Body> */}
+               <NewMapModal setAuthenticatedUser={authenticatedUserContext} />
+        </Card>
 
     </Tab>
-      {context.maps.map(function(item, index) {
+      {/* {context.maps.map(function(item, index) { */}
+    {mapContext.mapList.map(function(item, index) {
+
+      // {/* {authenticatedUser.maps.map(function(item, index) { */}
+
         console.log(item.mapStyle, index)
         return(
           <Tab key={index} eventKey={item.mapStyle} title={item.mapName}>

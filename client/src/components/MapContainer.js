@@ -18,14 +18,25 @@ const MapContainer = (props) => {
   // const marker = props.markers
   const context = useContext(authenticatedUserContext)
   const mapContext = useContext(MarkerContext)
-
+  const markers = context.markers
   let mapMarkers = []
-  const [ allMarkers, setAllMarkers ] = useState(context.markers)
+  console.log(markers)
+  console.log(mapContext.list)
 
-  mapMarkers = mapContext.list.filter(marker => {
+
+  if (mapContext.list.length > markers) {
+      mapMarkers = mapContext.list.filter(marker => {
     return (marker.index === props.index)
   })
-  const markers = context.markers
+
+  } else {
+    mapMarkers = markers.filter(marker => {
+      return (marker.index === props.index)
+    })
+  }
+
+  const [ allMarkers, setAllMarkers ] = useState(context.markers)
+
 
   const [ selected, setSelected ] = useState({});
 
@@ -90,7 +101,7 @@ dragConstraints={{
             return (
 
                 <Marker 
-                  key={item.name} 
+                  key={item.name + item.day} 
                   position={item.location} 
                   onClick={() => onSelect(item)}
                 />
@@ -107,7 +118,7 @@ dragConstraints={{
               >
                 <div>
                   <p style={{fontSize: "20px"}}>{selected.name}</p>
-                  <p>{selected.show}</p>
+                  <p>{selected.comment}</p>
                   <p>{selected.email}</p>
 
                   <AddFile />

@@ -1,12 +1,13 @@
 import React from "react"
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container'
+import LogOut from "./Logout"
 
 function Header({name}) {
 console.log(name)
     return(
       <Jumbotron fluid>
-
+        <LogOut />
         <Container style={{height: "10vh", paddingTop: "50px", paddingBottom: "80px"}}>
 
         <h1>Hi, {name}</h1>

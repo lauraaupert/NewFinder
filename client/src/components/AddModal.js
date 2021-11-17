@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 
 function AddYourself(props) {
-  console.log(props)
+  // console.log(props)
   function onClick() {
     props.onHide()
     // window.location.reload();

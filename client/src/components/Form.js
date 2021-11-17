@@ -20,13 +20,18 @@ function AddForm(props) {
     const markers = props.markers
     const id = context._id
     const index = props.index
+
+    console.log(markerContext)
+    console.log(markers)
     
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
           console.log(position.coords);
           setCurrentLatitude(position.coords.latitude);
           setCurrentLongitude(position.coords.longitude);
+          
         })
+        
       }, 
     []);
 
@@ -41,11 +46,13 @@ function AddForm(props) {
         e.preventDefault();
 
         if (name === "" || comment === "" || address === "") {
-            alert("Please fill out your name, email, show, and location");
+            alert("Please fill out the name, comment, and location fields");
         } else {
             if (latitude && longitude) {
+              const day = Date.now()
+
               let location = {lat: Number(latitude), lng: Number(longitude)}
-              let marker = {index, name, comment, location}
+              let marker = {index, name, comment, location, day}
               passport.saveDestination(id, marker);
               markers.push(marker)
               markerContext.setList(markers)
@@ -55,13 +62,13 @@ function AddForm(props) {
 
               api.geocode(location)
               .then(res => {
-
+                const day = Date.now()
                 const apiLatitude = res.data.data[0].latitude
                 const apiLongitude = res.data.data[0].longitude
                 let location = {lat: Number(apiLatitude), lng: Number(apiLongitude)}
 
-                console.log("Destination Data: ", index, name, comment, apiLatitude, apiLongitude);
-                let marker = {index, name, comment, location}
+                console.log("Destination Data: ", index, name, comment, apiLatitude, apiLongitude, day);
+                let marker = {index, name, comment, location, day}
 
                 passport.saveDestination(id, marker);
                 markers.push(marker)
@@ -71,7 +78,6 @@ function AddForm(props) {
             }
         }
     };
-  
       
     return (
       <Form>
@@ -84,7 +90,7 @@ function AddForm(props) {
 
         <Form.Group controlId="comment">
           <Form.Label>Comment</Form.Label>
-          <Form.Control type="email" placeholder="Comment" onChange={(e) => setComment(e.target.value)} value={comment}/>
+          <Form.Control type="text" as="textarea" rows={3} placeholder="Comment" onChange={(e) => setComment(e.target.value)} value={comment}/>
         </Form.Group>
 
         <br/>

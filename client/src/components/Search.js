@@ -6,9 +6,7 @@ import authenticatedUserContext from '../utils/authenticatedUserContext'
 import AddModal from "./AddModal"
 
 function Search(props) {
-  console.log(props)
   const markerContext = useContext(MarkerContext)
-  console.log(markerContext.list)
   const [allData,setAllData] = useState([]);
   const [filteredData,setFilteredData] = useState(allData);
 
@@ -18,7 +16,6 @@ function Search(props) {
   const handleSearch = (event) =>{
     let value = event.target.value;
     let result = [];
-    console.log(value)
 
     result = allData.filter((data) => {
       return data.name.search(value) !== -1;
@@ -34,10 +31,8 @@ function Search(props) {
     // };
    
     setFilteredData(result);
-    markerContext.setList(result);
+    // markerContext.setList(result);
   };
-  console.log(allData)
-  console.log(filteredData)
 
   useEffect(() => {
     setAllData(context.markers)
@@ -70,7 +65,7 @@ function Search(props) {
           <Col lg={6}>
 
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="name" placeholder="Find Someone"
+              <Form.Control type="name" placeholder="Find a Saved Place"
                 style={{marginBottom: "20px", marginLeft: "10px"}}
                 onChange={(event) =>handleSearch(event)}
               />

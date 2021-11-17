@@ -58,6 +58,7 @@ const router = require("express").Router();
             res.send(result);
           }
         })
+        // .then(user => console.log(res.json(user)))
     } else {
     // if (req.body.maps) 
     User.updateOne({_id: req.body._id}, 
@@ -69,10 +70,12 @@ const router = require("express").Router();
         if (err) {
           res.send(err);
         } else {
+          console.log(result, "response")
           res.send(result);
         }
       }
     )
+    // .then(user => console.log(res.json(user), "user"))
     };
   });
 
