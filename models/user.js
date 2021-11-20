@@ -55,6 +55,12 @@ const UserSchema = new Schema({
   hasMaps: 
     {
       type: Boolean
+    },
+    availableStyles: {
+      type: Array
+    },
+    comment: {
+      type: Array
     }
   
   //   {

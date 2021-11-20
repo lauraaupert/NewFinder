@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import MapContainer from './MapContainer';
@@ -6,10 +6,23 @@ import authenticatedUserContext from '../utils/authenticatedUserContext'
 import NewMapModal from './newMapModal/NewMapModal';
 import { Card } from 'react-bootstrap';
 import { MarkerContext } from '../utils/MarkerContext';
+import GetStarted from './GetStarted/GetStarted';
 
 
 
-function TabsMap() {
+function TabsMap(props) {
+  console.log(props)
+  const storeSelection = (selection) => localStorage.setItem('tabSelection', selection);
+  console.log(localStorage.getItem('tabSelection'))
+  let lastTab = localStorage.getItem('tabSelection')
+  let tab;
+
+  if (props.lastMap !== undefined) {
+    tab = props.lastMap
+  } else {
+    tab = "all"
+  }
+  console.log(tab)
 
     // const marker = useContext(MarkerContext);
     // let kooza = [];
@@ -31,20 +44,25 @@ function TabsMap() {
     const context = useContext(authenticatedUserContext)
     const mapContext = useContext(MarkerContext)
     // mapContext.setMapList(context.maps)
-    // console.log(mapContext.mapList)
+    console.log(mapContext.mapList)
     console.log(context)
+    const allmaps = [].concat(context.maps)
+    console.log(allmaps)
+
+    const [displayMaps, setDisplayMaps ] = useState(allmaps)
+
 
     useEffect(() => {
-      if (context.maps.length > mapContext.mapList.length ||
-        mapContext.mapList === undefined
-        ) {
-        mapContext.setMapList(context.maps)
-      }
-      if (context.markers.length > mapContext.list.length) {
+      // if (context.maps.length > mapContext.mapList.length ||
+      //   mapContext.mapList === undefined
+      //   ) {
+        // mapContext.setMapList(context.maps)
+      // }
+      // if (context.markers.length > mapContext.list.length) {
         mapContext.setList(context.markers)
-      }
-    console.log(context.maps.length)
-    console.log(mapContext.mapList.length)
+    //   }
+    // console.log(context.maps.length)
+    // console.log(mapContext.mapList.length)
     }, [])
     console.log(mapContext.mapList)
 
@@ -76,12 +94,15 @@ function TabsMap() {
 
     return(
       
-    <Tabs defaultActiveKey="all" id="uncontrolled-tab-example" className="mb-3">
+    <Tabs defaultActiveKey={tab}  id="uncontrolled-tab-example" className="mb-3">
       <Tab eventKey="all" title="All">
         <Card>
           <Card.Title>
             My Maps
           </Card.Title>
+          {!context.hasMaps &&
+          <GetStarted name={context.name} />
+          }
           {/* <Card.Body> */}
             {/* <Card.Text>
               {authenticatedUser.name} has {authenticatedUser.maps.length} maps
@@ -90,18 +111,19 @@ function TabsMap() {
               {authenticatedUser.name} has {mapContext.list.length} saved places
             </Card.Text> */}
           {/* </Card.Body> */}
-               <NewMapModal setAuthenticatedUser={authenticatedUserContext} />
+               <NewMapModal allmaps={allmaps} setAuthenticatedUser={props.setAuthenticatedUser} />
         </Card>
-
     </Tab>
       {/* {context.maps.map(function(item, index) { */}
-    {mapContext.mapList.map(function(item, index) {
+      {context.hasMaps &&
+
+    allmaps.map(function(item, index) {
 
       // {/* {authenticatedUser.maps.map(function(item, index) { */}
 
         console.log(item.mapStyle, index)
         return(
-          <Tab key={index} eventKey={item.mapStyle} title={item.mapName}>
+          <Tab key={index} eventKey={item.mapStyle} title={item.mapName} onSelect={storeSelection(item.mapStyle)}>
           <MapContainer
           styles={item.mapStyle}
           index={index}

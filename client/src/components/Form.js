@@ -53,7 +53,11 @@ function AddForm(props) {
 
               let location = {lat: Number(latitude), lng: Number(longitude)}
               let marker = {index, name, comment, location, day}
-              passport.saveDestination(id, marker);
+              passport.saveDestination(id, marker)
+              .then(passport.LogIn(context.email, context.password))
+
+              // .then(window.location.reload())
+         
               markers.push(marker)
               markerContext.setList(markers)
 
@@ -70,7 +74,11 @@ function AddForm(props) {
                 console.log("Destination Data: ", index, name, comment, apiLatitude, apiLongitude, day);
                 let marker = {index, name, comment, location, day}
 
-                passport.saveDestination(id, marker);
+                passport.saveDestination(id, marker)
+                // .then(passport.LogIn(context.email, context.password))
+
+                // .then(window.location.reload())
+           
                 markers.push(marker)
                 markerContext.setList(markers)
               })

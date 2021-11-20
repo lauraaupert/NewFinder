@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
-import api from "../utils/api"
-import { MarkerContext } from "../utils/MarkerContext"
-import authenticatedUserContext from '../utils/authenticatedUserContext'
 import AddModal from "./AddModal"
 
 function Search(props) {
-  const markerContext = useContext(MarkerContext)
-  const [allData,setAllData] = useState([]);
+  const [allData,setAllData] = useState(props.markers);
   const [filteredData,setFilteredData] = useState(allData);
 
-  const context = useContext(authenticatedUserContext)
-  // setAllData(context.markers)
-
   const handleSearch = (event) =>{
-    let value = event.target.value;
+    let value = event.target.value.toLowerCase();
     let result = [];
 
     result = allData.filter((data) => {
-      return data.name.search(value) !== -1;
+      return data.name.toLowerCase().search(value) !== -1;
     });
 
     // if (result.length < 1) {
@@ -30,13 +23,14 @@ function Search(props) {
     //   console.log(result)
     // };
    
-    setFilteredData(result);
+    props.setAllMarkers(result);
+
     // markerContext.setList(result);
   };
 
-  useEffect(() => {
-    setAllData(context.markers)
-  }, [])
+  // useEffect(() => {
+  //   setAllData(context.markers)
+  // }, [])
   // useEffect(() => {
   //   api.getUser()
   //   .then(res => {
@@ -59,9 +53,9 @@ function Search(props) {
     <div>
       <Form>
         <Row>
-          <Col lg={4}>
+          {/* <Col lg={4}>
             <AddModal index={props.index} markers={props.markers} />
-          </Col>
+          </Col> */}
           <Col lg={6}>
 
             <Form.Group controlId="formBasicEmail">

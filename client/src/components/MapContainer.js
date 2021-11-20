@@ -3,9 +3,10 @@ import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/ap
 import Search from "./Search"
 import AddFile from "./AddFile"
 import authenticatedUserContext from '../utils/authenticatedUserContext'
-import { motion } from "framer-motion"
-import AddModal from './AddModal';
 import { MarkerContext } from '../utils/MarkerContext';
+import CommentDisplay from './CommentDisplay';
+import AddModal from './AddModal';
+import Col from 'react-bootstrap/Col';
 
 
 const googleKey = process.env.REACT_APP_APIKEY
@@ -13,18 +14,22 @@ const googleKey = process.env.REACT_APP_APIKEY
 
 
 const MapContainer = (props) => {
-  console.log(props.index)
   const styles = require(`${props.styles}`)
   // const marker = props.markers
   const context = useContext(authenticatedUserContext)
   const mapContext = useContext(MarkerContext)
+  // const [contMark, setContMark] = useState(mapContext.list})
   const markers = context.markers
   let mapMarkers = []
   console.log(markers)
-  console.log(mapContext.list)
+  
+  
 
 
-  if (mapContext.list.length > markers) {
+
+  // if (mapContext.list.length > markers.length) {
+    if (mapContext.list !== undefined) {
+
       mapMarkers = mapContext.list.filter(marker => {
     return (marker.index === props.index)
   })
@@ -35,7 +40,9 @@ const MapContainer = (props) => {
     })
   }
 
-  const [ allMarkers, setAllMarkers ] = useState(context.markers)
+  const [ allMarkers, setAllMarkers ] = useState(mapMarkers)
+
+  console.log(allMarkers)
 
 
   const [ selected, setSelected ] = useState({});
@@ -63,9 +70,12 @@ const MapContainer = (props) => {
   return (
     <LoadScript
        googleMapsApiKey = {googleKey}>
+                   <Col lg={4}>
+            <AddModal index={props.index} markers={markers} />
+          </Col>
 
-      <Search index={props.index} markers={markers} setAllMarkers={setAllMarkers}/>
-     
+
+      <Search index={props.index} markers={mapMarkers} setAllMarkers={setAllMarkers}/>
       {/* <motion.div
 style={{backgroundColor: "red", alignItems: "center", justifyContent: "center",
 width: "60px", zIndex: "1", height: "60px",display: "flex", borderRadius: "50%"}}
@@ -91,9 +101,10 @@ dragConstraints={{
         zoom={2.3}
         center={defaultCenter}>
 
+<CommentDisplay index={props.index} />
 
           
-        {mapMarkers.map(item => { 
+        {allMarkers.map(item => { 
           {/* {mapContext.map(item => {  */}
 
                   // {/* // {marker.map(item => {

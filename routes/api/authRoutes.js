@@ -44,8 +44,8 @@ const router = require("express").Router();
   //   .then(console.log(req.data))
   // }
   router.route("/user_data").put(function(req, res) {
-    console.log("yoyou", req.body.maps, req.body.markers)
-    if (req.body.maps === undefined) {
+    console.log("yoyou", req.body.maps, req.body.markers, req.body.comment)
+    if (req.body.maps === undefined && req.body.comment === undefined) {
       // let map = maps[req.body.markers.index]
       User.updateOne({_id: req.body._id}, 
         // { _id: res.data._id },
@@ -59,13 +59,14 @@ const router = require("express").Router();
           }
         })
         // .then(user => console.log(res.json(user)))
-    } else {
+    } else if (req.body.markers === undefined && req.body.comment === undefined) {
     // if (req.body.maps) 
     User.updateOne({_id: req.body._id}, 
       // { _id: res.data._id },
       // { $set: {map1: req.body.maps }},
       { $addToSet: {maps: req.body.maps }, 
-       $set: {hasMaps: true }},
+        $pull: {availableStyles: req.body.mapToDelete},
+        $set: {hasMaps: true }},
       function(err, result) {
         if (err) {
           res.send(err);
@@ -76,7 +77,24 @@ const router = require("express").Router();
       }
     )
     // .then(user => console.log(res.json(user), "user"))
-    };
+    }  else if (req.body.markers === undefined && req.body.maps === undefined) {
+      // if (req.body.maps) 
+      User.updateOne({_id: req.body._id}, 
+        // { _id: res.data._id },
+        // { $set: {map1: req.body.maps }},
+        { $addToSet: {comment: req.body.comment }},
+        function(err, result) {
+          if (err) {
+            res.send(err);
+          } else {
+            console.log(result, "response")
+            res.send(result);
+          }
+        }
+      )
+      // .then(user => console.log(res.json(user), "user"))
+      };
+  
   });
 
   // Route for getting some data about our user to be used client side
@@ -98,7 +116,9 @@ const router = require("express").Router();
         success: true,
         maps: req.user.maps,
         password: req.user.password,
-        markers: req.user.markers
+        markers: req.user.markers,
+        availableStyles: req.user.availableStyles,
+        comment: req.user.comment
       });
     }
   });

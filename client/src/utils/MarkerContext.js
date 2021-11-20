@@ -1,5 +1,6 @@
 
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import passport from './passport'
 
 export const MarkerContext = createContext();
 
@@ -7,8 +8,21 @@ export const MarkerContext = createContext();
 export const MarkerProvider = ({ children }) => {
   const [list, setList] = useState( [] );
   const [mapList, setMapList] = useState( [] )
-  console.log(list)
-//   const [location, setLocation] = useState("Mars");
+  console.log(list, mapList, "context state")
+
+// useEffect(() => {
+//   passport.getUser().then(user => {
+//     console.log(user)
+//     if (user.data.maps) {
+//       user.data.maps.forEach(item => {
+//         mapList.push(item)
+//       })
+//       // setMapList(user.maps)
+//     }
+//   })
+// })
+
+
 
   return (
     <MarkerContext.Provider

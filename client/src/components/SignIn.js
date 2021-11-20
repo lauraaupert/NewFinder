@@ -57,24 +57,12 @@ function SignIn({setIsAuthenticatedUser}) {
     // }
 
     return(
-        <motion.div
-        style={{backgroundColor: "red",
-        width: "800px", height: "400px",display: "flex"}}
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        transition={{duration: 2}}
-        drag
-        dragSnapToCenter={true}
-        dragConstraints={{
-            top: 0,
-            left: 0, 
-            right: 500,
-            bottom: 500,
-        }}
-        >
+      <div>
             <Card style={{width: "400px", justifyContent: "center"}}>
                 <Card.Body>
-    <Form style={{position:'absolute', top: "10px"}}>
+    <Form 
+    // style={{position:'absolute', top: "10px"}}
+    >
         <Form.Group className="mb-3" controlId="loginEmail"
         >
           <Form.Label>Email address</Form.Label>
@@ -146,7 +134,7 @@ function SignIn({setIsAuthenticatedUser}) {
       </Card>
 
 
-      </motion.div>
+</div>
       )
 }
 

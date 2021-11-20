@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -10,26 +10,15 @@ import authenticatedUserContext from "./utils/authenticatedUserContext";
 import "./App.css";
 import MapsPage from "./components/pages/Maps";
 import LoginPage from "./components/pages/Login";
-import { MarkerContext, MarkerProvider } from "./utils/MarkerContext";
+import { MarkerProvider } from "./utils/MarkerContext";
 
 
 
 function App() {
   const [isAuthenticatedUser, setIsAuthenticatedUser] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState({})
-  // const mapContext = useContext(MarkerContext)
-  // console.log(mapContext)
 
-  // useContext(authenticatedUserContext) = authenticatedUser;
   console.log(authenticatedUser)
-  //NEED TO SET CONTEXT TO LOGGED USER
-  console.log(performance.getEntriesByType("navigation")[0].type === "reload")
-  console.log(performance.getEntriesByType("navigation"))
-  // console.log(window.location.reload())
-
-  // if (window.performance) {
-  //   if (performance.getEntriesByType("navigation")[0].type === "reload") {
-      
       
       const getData = () => {passport.isAuthenticated().then((res) => {
         console.log(res)
@@ -37,9 +26,9 @@ function App() {
         if (res.data.success) {
           console.log("SUCCESS!");
           setIsAuthenticatedUser(true);
-          console.log(res.data)
+          // console.log(res.data)
           passport.getUser().then((user) => {
-            console.log(user.data)
+            // console.log(user.data)
           let person = ({
             _id: user.data._id,
             email: user.data.email,
@@ -48,17 +37,10 @@ function App() {
             name: user.data.name,
             password: user.data.password,
             markers: user.data.markers
-  
-            // _id: res.data._id,
-            // email: res.data.email,
-            // maps: res.data.maps,
-            // hasMaps: res.data.hasMaps,
-            // name: res.data.name
+            
           })
-          console.log(person)
+          // console.log(person)
           setAuthenticatedUser(person)
-          // mapContext.setList(person.markers)
-          // mapContext.setMapList(person.maps)
         })
         } else {
           console.log("FAILURE");
@@ -69,7 +51,6 @@ function App() {
         console.log("The current user logged in is", authenticatedUser);
       });
     }
-  // }
 
 
   useEffect(() => {
@@ -79,9 +60,9 @@ function App() {
       if (res.data.success) {
         console.log("SUCCESS!");
         setIsAuthenticatedUser(true);
-        console.log(res.data)
+        // console.log(res.data)
         passport.getUser().then((user) => {
-          console.log(user.data)
+          // console.log(user.data)
         let person = ({
           _id: user.data._id,
           email: user.data.email,
@@ -89,15 +70,10 @@ function App() {
           hasMaps: user.data.hasMaps,
           name: user.data.name,
           password: user.data.password,
-          markers: user.data.markers
-
-          // _id: res.data._id,
-          // email: res.data.email,
-          // maps: res.data.maps,
-          // hasMaps: res.data.hasMaps,
-          // name: res.data.name
+          markers: user.data.markers,
+          availableStyles: user.data.availableStyles,
+          comment: user.data.comment
         })
-        console.log(person)
         setAuthenticatedUser(person)
 
       })
@@ -121,8 +97,6 @@ function App() {
       <authenticatedUserContext.Provider value={authenticatedUser}>
 
         <MarkerProvider>
-          {/* {authenticatedUser.maps && mapContext.setMapList(authenticatedUser.maps)}
-          {authenticatedUser.markers && mapContext.setList(authenticatedUser.markers)} */}
 
       <Switch>
           {isAuthenticatedUser ? (
@@ -132,7 +106,7 @@ function App() {
               </Route>
 
               <Route exact path={["/MapsPage"]}>
-                <MapsPage setIsAuthenticatedUser={setIsAuthenticatedUser} />
+                <MapsPage setIsAuthenticatedUser={setIsAuthenticatedUser} setAuthenticatedUser={setAuthenticatedUser}/>
               </Route>
             </>
           ) : (
